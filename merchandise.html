@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MERCHANDISE | BRITPOP REVIVAL</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;900&display=swap');
+        
+        body { 
+            background-color: #000000; color: #ffffff; font-family: 'Inter', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        .headline-rock { font-weight: 900; text-transform: uppercase; letter-spacing: -0.04em; line-height: 1; }
+        
+        /* ธง Union Jack Vibe */
+        .uj-accent { 
+            height: 6px; 
+            background: linear-gradient(90deg, #E30613 0%, #E30613 33%, #ffffff 33%, #ffffff 66%, #001F3F 66%, #001F3F 100%); 
+        }
+
+        /* แอนิเมชันสั่นแบบ Punk/Rock */
+        @keyframes punk-shake {
+            0% { transform: translate(0,0) rotate(0deg); }
+            20% { transform: translate(-3px, 2px) rotate(-1deg); }
+            40% { transform: translate(-3px, -2px) rotate(1deg); }
+            60% { transform: translate(3px, 2px) rotate(0deg); }
+            80% { transform: translate(3px, -2px) rotate(-1deg); }
+            100% { transform: translate(0,0) rotate(0deg); }
+        }
+
+        .btn-punk {
+            transition: all 0.1s ease-in-out;
+            border: 3px solid #ffffff;
+            cursor: pointer;
+            display: inline-block;
+        }
+        .btn-punk:hover {
+            animation: punk-shake 0.2s infinite;
+            background-color: #E30613;
+            color: #F2B900;
+            border-color: #F2B900;
+            box-shadow: 5px 5px 0px #F2B900;
+        }
+
+        /* ปุ่มบวกแบบสี่เหลี่ยม */
+        .btn-toggle {
+            width: 50px; height: 50px; border: 3px solid #ffffff;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 32px; font-weight: 900; cursor: pointer;
+            transition: all 0.1s ease-in-out;
+            background-color: #000000;
+        }
+        .btn-toggle:hover {
+            animation: punk-shake 0.2s infinite;
+            background-color: #E30613;
+            color: #F2B900 !important;
+            border-color: #F2B900;
+            box-shadow: 4px 4px 0px #F2B900;
+        }
+        .btn-toggle.active { transform: scale(1.1); border-color: #E30613; color: #E30613; }
+
+        /* กล่องสินค้า */
+        .merch-card {
+            border: 2px solid #333;
+            background-color: #050505;
+            transition: 0.3s ease;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+        .merch-card:hover { 
+            border-color: #ffffff;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+        }
+
+        .merch-img-box {
+            background-color: #111;
+            aspect-ratio: 1/1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-bottom: 1px solid #333;
+            position: relative;
+            overflow: hidden;
+        }
+        .merch-card:hover .merch-img-box {
+            border-color: #ffffff;
+        }
+
+        /* ป้าย Tag เล็กๆ */
+        .badge-hot {
+            position: absolute; top: 10px; right: 10px;
+            background-color: #E30613; color: white;
+            font-size: 10px; font-weight: 900; padding: 2px 8px;
+            text-transform: uppercase; letter-spacing: 0.1em;
+            z-index: 10;
+        }
+        .badge-limited {
+            position: absolute; top: 10px; right: 10px;
+            background-color: #F2B900; color: black;
+            font-size: 10px; font-weight: 900; padding: 2px 8px;
+            text-transform: uppercase; letter-spacing: 0.1em;
+            z-index: 10;
+        }
+
+        /* MODAL STYLES */
+        #ticket-modal {
+            display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.95);
+            z-index: 999; align-items: center; justify-content: center; backdrop-filter: blur(10px);
+        }
+        #ticket-modal.active { display: flex; }
+        .modal-container { background: #0a0a0a; border: 4px solid #ffffff; width: 95%; max-width: 900px; padding: 40px 20px; position: relative; max-height: 90vh; overflow-y: auto; }
+    </style>
+</head>
+<body>
+
+    <!-- NAV -->
+    <nav class="p-5 flex justify-between items-center border-b border-white/10 sticky top-0 bg-black/95 z-50 backdrop-blur-md">
+        <a href="index.html"><img src="https://res.cloudinary.com/dcrww0ijh/image/upload/v1776500130/Logo_2_gemini_ecylcd.png" alt="LOGO" class="h-[45px]"></a>
+        <div class="hidden lg:flex gap-4 xl:gap-8 font-bold uppercase text-[10px] tracking-[0.2em]">
+            <a href="the-movement.html" class="hover:text-[#F2B900] transition-colors">THE MOVEMENT</a>
+            <a href="bands-media.html" class="hover:text-[#F2B900] transition-colors">BANDS & MEDIA</a>
+            <a href="revival-events.html" class="hover:text-[#F2B900] transition-colors">REVIVAL EVENTS</a>
+            <a href="community-hub.html" class="hover:text-[#F2B900] transition-colors">COMMUNITY HUB</a>
+            <a href="#" class="text-[#E30613] hover:text-[#F2B900] transition-colors">MERCHANDISE</a>
+            <a href="contact-tickets.html" class="hover:text-[#F2B900] transition-colors">CONTACT / TICKETS</a>
+        </div>
+    </nav>
+
+    <div class="uj-accent"></div>
+
+    <!-- HERO SECTION MERCH -->
+    <section class="relative py-24 md:py-32 px-6 border-b border-white/10 overflow-hidden flex items-center justify-center min-h-[60vh]">
+        
+        <!-- รูปแบบ Background Image และ Overlay โทนสีดำ/เทาเข้ม ลด Opacity -->
+        <div class="absolute inset-0 z-0">
+            <!-- ใส่ภาพ Background ตรงนี้ได้เลย -->
+            <img src="https://res.cloudinary.com/dcrww0ijh/image/upload/v1776500130/landscape_edit_srhygr.jpg" alt="Merch Background" class="w-full h-full object-cover opacity-50 grayscale">
+            
+            <!-- Texture สีเทาเข้มซ้อนบางๆ เป็น Overlay เพื่อคุมโทนความดิบแบบร็อค -->
+            <div class="absolute inset-0" style="background: radial-gradient(circle at center, rgba(26, 26, 26, 0.6) 0%, transparent 80%); mix-blend-mode: multiply;"></div>
+            
+            <!-- ไล่สีดำเพื่อเบลนด์ภาพให้กลืนไปกับเนื้อหาด้านล่าง -->
+            <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-black/30 to-black"></div>
+        </div>
+
+        <!-- เนื้อหา Hero -->
+        <div class="max-w-5xl mx-auto text-center relative z-10">
+            <h2 class="text-[#F2B900] font-black tracking-[0.3em] mb-4 text-xs md:text-base uppercase italic underline underline-offset-8">Official Bootleg & Apparel</h2>
+            <h1 class="headline-rock text-5xl md:text-8xl mb-6 text-[#ffffff] drop-shadow-xl" style="text-shadow: 4px 4px 0 #333;">THE MERCH STAND</h1>
+            <p class="text-gray-300 text-sm md:text-lg tracking-widest font-bold max-w-2xl mx-auto uppercase mt-8 border-l-4 border-[#F2B900] pl-4 text-left bg-black/30 backdrop-blur-sm p-4 inline-block">
+                "Wear the noise. Exclusive merchandise available only at the gig."
+            </p>
+        </div>
+    </section>
+
+    <!-- CATALOG SECTION -->
+    <div class="max-w-6xl mx-auto px-6 py-20">
+        
+        <div class="flex items-center justify-between mb-12 border-b border-[#333] pb-4">
+            <h3 class="headline-rock text-3xl text-[#ffffff]">- CATALOGUE 202X -</h3>
+            <span class="text-[10px] uppercase font-bold tracking-widest text-[#E30613] hidden md:block">* EXCLUSIVE AT EVENTS ONLY</span>
+        </div>
+
+        <!-- สินค้า Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 relative">
+            
+            <!-- ITEM 1: T-Shirt -->
+            <div class="merch-card p-4 group">
+                <div class="badge-hot">BEST SELLER</div>
+                <div class="merch-img-box mb-4">
+                    <p class="text-[#555] font-black italic tracking-widest"> <img src="https://res.cloudinary.com/dcrww0ijh/image/upload/v1776500131/shirt_m_2-removebg-preview_ivxl1e.png" alt=""> </p>
+                    <div class="absolute inset-0 bg-[#E30613] opacity-0 group-hover:opacity-10 transition-opacity"></div>
+                </div>
+                <div class="flex-grow">
+                    <h4 class="font-black text-xl mb-1 text-white uppercase">SETTING SUN Tee (Black)</h4>
+                    <p class="text-[9px] text-gray-500 tracking-[0.15em] font-bold mb-3 uppercase">90s Oversized Fit / 100% Cotton</p>
+                    <p class="text-gray-400 text-xs mb-4">เสื้อยืดทรงโอเวอร์ไซส์สไตล์ 90s สกรีนลายธีมงาน สวมใส่สบาย ระบายเหงื่อได้ดีเยี่ยม เหมาะสำหรับใส่กระโดดหน้าเวที</p>
+                </div>
+                <div class="flex justify-between items-end mt-4 pt-4 border-t border-[#333]">
+                    <p class="text-[#F2B900] font-black text-2xl">฿890</p>
+                    <button class="text-[10px] font-black uppercase tracking-widest bg-white text-black px-3 py-2 hover:bg-[#E30613] hover:text-white transition-colors border border-white">EVENT EXCLUSIVE</button>
+                </div>
+            </div>
+
+            <!-- ITEM 2: Bucket Hat -->
+            <div class="merch-card p-4 group">
+                <div class="merch-img-box mb-4">
+                    <p class="text-[#555] font-black italic tracking-widest"> <img src="https://res.cloudinary.com/dcrww0ijh/image/upload/v1776500129/Hat_1-removebg-preview_koodan.png" alt=""> </p>
+                    <div class="absolute inset-0 bg-[#ffffff] opacity-0 group-hover:opacity-10 transition-opacity"></div>
+                </div>
+                <div class="flex-grow">
+                    <h4 class="font-black text-xl mb-1 text-white uppercase">Britpop Revival Logo Bucket Hat</h4>
+                    <p class="text-[9px] text-gray-500 tracking-[0.15em] font-bold mb-3 uppercase">Classic Black / Embroidered Logo</p>
+                    <p class="text-gray-400 text-xs mb-4">ไอเทมที่ขาดไม่ได้สำหรับชาว Casuals หมวกปีกรอบสีดำปักโลโก้ Britpop Revival ปีกหมวกตกทรงกำลังดี</p>
+                </div>
+                <div class="flex justify-between items-end mt-4 pt-4 border-t border-[#333]">
+                    <p class="text-white font-black text-2xl">฿590</p>
+                    <button class="text-[10px] font-black uppercase tracking-widest bg-transparent text-white border border-white px-3 py-2 hover:bg-white hover:text-black transition-colors">EVENT EXCLUSIVE</button>
+                </div>
+            </div>
+
+            <!-- ITEM 3: Guitar Picks -->
+            <div class="merch-card p-4 group">
+                <div class="merch-img-box mb-4">
+                    <p class="text-[#555] font-black italic tracking-widest"> <img src="https://res.cloudinary.com/dcrww0ijh/image/upload/v1776500130/Pick_guitar_edit-removebg-preview_rz7mlr.png" alt=""> </p>
+                    <div class="absolute inset-0 bg-[#F2B900] opacity-0 group-hover:opacity-10 transition-opacity"></div>
+                </div>
+                <div class="flex-grow">
+                    <h4 class="font-black text-xl mb-1 text-white uppercase">Britpop Revival Logo Pick Set</h4>
+                    <p class="text-[9px] text-gray-500 tracking-[0.15em] font-bold mb-3 uppercase">Set of 3 / 0.71mm Celluloid</p>
+                    <p class="text-gray-400 text-xs mb-4">เซ็ตปิ๊กกีตาร์ที่ระลึก 3 สี พิมพ์โลโก้ Britpop Revival บนปิ๊กสีร็อคคลาสสิก ความหนามาตรฐาน ตีคอร์ดมันส์ๆ</p>
+                </div>
+                <div class="flex justify-between items-end mt-4 pt-4 border-t border-[#333]">
+                    <p class="text-white font-black text-2xl">฿250</p>
+                    <button class="text-[10px] font-black uppercase tracking-widest bg-transparent text-white border border-white px-3 py-2 hover:bg-white hover:text-black transition-colors">EVENT EXCLUSIVE</button>
+                </div>
+            </div>
+
+            <!-- ITEM 4: Cassette Tape (O-Card) -->
+            <div class="merch-card p-4 group">
+                <div class="badge-limited">LIMITED 100 PCS</div>
+                <div class="merch-img-box mb-4">
+                    <p class="text-[#555] font-black italic tracking-widest text-center px-4"> <img src="https://res.cloudinary.com/dcrww0ijh/image/upload/v1776500128/Cs_m_1-removebg-preview_hxoji1.png" alt=""> </p>
+                    <div class="absolute inset-0 bg-[#001F3F] opacity-0 group-hover:opacity-20 transition-opacity"></div>
+                </div>
+                <div class="flex-grow">
+                    <h4 class="font-black text-xl mb-1 text-[#F2B900] uppercase">The Revival Sleeve</h4>
+                    <p class="text-[9px] text-[#E30613] tracking-[0.15em] font-bold mb-3 uppercase">Physical Format / O-Card Sleeve</p>
+                    <p class="text-gray-400 text-xs mb-4">กิมมิคยุค 90s ตัวจริง! กล่องกระดาษสวมเทปคาสเซ็ท (O-Card Sleeve) </p>
+                </div>
+                <div class="flex justify-between items-end mt-4 pt-4 border-t border-[#333]">
+                    <p class="text-[#F2B900] font-black text-2xl">฿450</p>
+                    <button class="text-[10px] font-black uppercase tracking-widest bg-[#F2B900] text-black border border-[#F2B900] px-3 py-2 hover:bg-transparent hover:text-[#F2B900] transition-colors">EVENT EXCLUSIVE</button>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ปุ่ม + และกล่อง Coming Soon -->
+        <div class="mt-16 flex flex-col items-center justify-center">
+            
+            <!-- ปุ่ม + -->
+            <div id="add-more-btn" class="flex flex-col items-center gap-4">
+                <div class="btn-toggle" onclick="showComingSoon()">+</div>
+                <p class="text-[9px] font-bold tracking-[0.2em] opacity-40 uppercase">Show More Items</p>
+            </div>
+            
+            <!-- กล่องข้อความ Coming Soon (ซ่อนไว้ตอนแรก) -->
+            <div id="coming-soon-box" class="hidden text-center transform scale-95 opacity-0 transition-all duration-500 w-full max-w-lg mx-auto">
+                <div class="border-2 border-dashed border-[#E30613] px-8 py-6 bg-[#001F3F]/20 backdrop-blur-sm relative">
+                    <!-- กากบาทปิด (เผื่อผู้ใช้ต้องการปิด) -->
+                    <button onclick="hideComingSoon()" class="absolute top-2 right-3 text-[#ffffff] hover:text-[#E30613] font-bold text-lg">✕</button>
+                    
+                    <h4 class="headline-rock text-2xl text-[#F2B900] mb-2 tracking-widest uppercase">MORE NOISE COMING SOON</h4>
+                    <p class="text-gray-300 text-[10px] uppercase tracking-[0.2em] font-bold">New drops are on the way. Keep your eyes peeled.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="border-t border-white/20 w-1/2 mx-auto my-20"></div>
+
+        <!-- HOW TO BUY SECTION -->
+        <div class="bg-[#050505] border-2 border-dashed border-[#555] p-8 md:p-12 text-center md:text-left flex flex-col md:flex-row items-center gap-10">
+            <div class="md:w-1/3">
+                <h3 class="headline-rock text-4xl mb-4 text-[#ffffff]">- HOW TO BUY AT EVENT -</h3>
+                <p class="text-[#E30613] font-bold tracking-widest text-xs uppercase mb-4">Exclusive at events only</p>
+            </div>
+            <div class="md:w-2/3 grid grid-cols-1 md:grid-cols-3 gap-6 text-left">
+                <!-- Step 1 -->
+                <div>
+                    <h4 class="font-black text-3xl text-[#333] mb-2">01</h4>
+                    <p class="text-[#ffffff] font-bold text-sm uppercase tracking-wider mb-2">Find Merch Stand</p>
+                    <p class="text-gray-400 text-xs">มองหาบูธ Official Merchandise ที่บริเวณหน้างาน (สินค้าบางชนิดมีจำนวนจำกัด มาก่อนได้ก่อน)</p>
+                </div>
+                <!-- Step 2 -->
+                <div>
+                    <h4 class="font-black text-3xl text-[#333] mb-2">02</h4>
+                    <p class="text-[#E30613] font-bold text-sm uppercase tracking-wider mb-2">Select & Pay</p>
+                    <p class="text-gray-400 text-xs">เลือกไอเทมที่คุณต้องการ รับชำระทั้งเงินสดและเงินโอน (สแกน QR Code)</p>
+                </div>
+                <!-- Step 3 -->
+                <div>
+                    <h4 class="font-black text-3xl text-[#333] mb-2">03</h4>
+                    <p class="text-[#F2B900] font-bold text-sm uppercase tracking-wider mb-2">Wear It & Go Mad</p>
+                    <p class="text-gray-400 text-xs">สวมเสื้อฮูด หมวก หรือไอเทมใหม่ของคุณ แล้วไปสนุกกับวงดนตรีสุดเดือดหน้าเวทีได้เลย!</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- CALL TO ACTION -->
+    <section class="py-20 text-center border-t border-white/10 bg-[#050505]">
+        <h2 class="headline-rock text-4xl md:text-5xl mb-8">SECURE YOUR SPOT & MERCH</h2>
+        <a href="index.html" class="btn-punk px-10 py-4 text-xl font-black uppercase mx-2 mb-4 md:mb-0 bg-white text-black border-white hover:bg-[#F2B900] hover:text-black hover:border-[#F2B900]">BACK TO MAIN STAGE</a>
+        <button onclick="toggleModal(true)" class="btn-punk px-10 py-4 text-xl font-black uppercase mx-2 text-[#E30613] border-[#E30613] hover:text-[#F2B900] hover:border-[#F2B900]">GET TICKETS</button>
+    </section>
+
+    <!-- TICKET MODAL -->
+    <div id="ticket-modal">
+        <div class="modal-container">
+            <button onclick="toggleModal(false)" class="absolute top-4 right-6 text-3xl font-black hover:text-[#E30613]">✕</button>
+            <h2 class="headline-rock text-4xl text-center mb-10">SELECT YOUR ACCESS</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 px-4">
+                <div class="text-center">
+                    <img src="https://res.cloudinary.com/dcrww0ijh/image/upload/v1776500131/The_rock_jt6d3u.png" alt="The Rock Ticket" class="w-full border border-white/20 mb-4">
+                    <h3 class="font-black italic text-xl">THE ROCK</h3>
+                    <p class="text-gray-400 text-xs mb-4 uppercase tracking-widest">Regular Admission</p>
+                    <p class="text-2xl font-black mb-6">฿1,49X.-</p>
+                    <button class="btn-punk w-full py-3 font-black text-lg">BUY TICKET</button>
+                </div>
+
+                <div class="text-center">
+                    <img src="https://res.cloudinary.com/dcrww0ijh/image/upload/v1776500131/The_star_nodjua.png" alt="The Star Ticket" class="w-full border border-white/20 mb-4">
+                    <h3 class="font-black italic text-xl text-[#F2B900]">THE STAR</h3>
+                    <p class="text-gray-400 text-xs mb-4 uppercase tracking-widest">VIP Pass + Limited Merch</p>
+                    <p class="text-2xl font-black mb-6 text-[#F2B900]">฿2,99X.-</p>
+                    <button class="btn-punk w-full py-3 font-black text-lg border-[#F2B900] text-[#F2B900]">BUY TICKET</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="bg-black py-16 text-center border-t border-white/10">
+        <img src="https://res.cloudinary.com/dcrww0ijh/image/upload/v1776500130/Logo_2_gemini_ecylcd.png" alt="LOGO" class="h-[60px] mx-auto mb-6">
+        
+        <div class="mb-10">
+            <h5 class="text-[10px] font-black tracking-[0.3em] uppercase mb-4 text-white/50">- CONTACT US -</h5>
+            <div class="flex flex-wrap justify-center gap-6 text-[11px] font-bold tracking-[0.1em] uppercase">
+                <a href="mailto:info@britpoprevival.com" class="hover:text-[#E30613] transition-colors">EMAIL</a>
+                <a href="#" class="hover:text-[#F2B900] transition-colors">INSTAGRAM</a>
+                <a href="#" class="hover:text-[#F2B900] transition-colors">FACEBOOK</a>
+                <a href="#" class="hover:text-[#E30613] transition-colors">LINE OA</a>
+            </div>
+        </div>
+
+        <p class="text-gray-500 tracking-widest font-black text-[10px]">Liberty Plaza, Thonglor / 202X</p>
+        <p class="text-[8px] text-gray-700 tracking-[0.4em] font-bold italic mt-8">© 202X BRITPOP REVIVAL. BANGKOK CITY. KEEP THE FAITH.</p>
+    </footer>
+
+    <script>
+        // ฟังก์ชันเปิด/ปิด Modal ซื้อตั๋ว
+        function toggleModal(show) {
+            const modal = document.getElementById('ticket-modal');
+            if (show) {
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden'; 
+            } else {
+                modal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        window.onclick = function(event) {
+            const modal = document.getElementById('ticket-modal');
+            if (event.target == modal) {
+                toggleModal(false);
+            }
+        }
+
+        // ฟังก์ชันแสดงกล่อง Coming Soon เมื่อกดปุ่ม +
+        function showComingSoon() {
+            const btn = document.getElementById('add-more-btn');
+            const box = document.getElementById('coming-soon-box');
+            
+            // ซ่อนปุ่ม + (และซ่อนข้อความด้านล่างปุ่มด้วย)
+            btn.classList.add('hidden');
+            
+            // แสดงกล่อง Coming Soon แบบมีแอนิเมชัน Fade-in/Scale
+            box.classList.remove('hidden');
+            setTimeout(() => {
+                box.classList.remove('scale-95', 'opacity-0');
+                box.classList.add('scale-100', 'opacity-100');
+            }, 50);
+        }
+
+        // ฟังก์ชันซ่อนกล่อง Coming Soon (กลับไปเป็นปุ่ม +)
+        function hideComingSoon() {
+            const btn = document.getElementById('add-more-btn');
+            const box = document.getElementById('coming-soon-box');
+
+            // ซ่อนกล่องกลับ
+            box.classList.add('scale-95', 'opacity-0');
+            box.classList.remove('scale-100', 'opacity-100');
+            
+            setTimeout(() => {
+                box.classList.add('hidden');
+                btn.classList.remove('hidden');
+            }, 300); // รอให้แอนิเมชันเล่นจบ
+        }
+    </script>
+
+</body>
+</html>

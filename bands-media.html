@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BANDS & MEDIA | BRITPOP REVIVAL</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;900&display=swap');
+        
+        body { 
+            background-color: #000000; color: #ffffff; font-family: 'Inter', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        .headline-rock { font-weight: 900; text-transform: uppercase; letter-spacing: -0.04em; line-height: 1; }
+        
+        /* ธง Union Jack Vibe */
+        .uj-accent { 
+            height: 6px; 
+            background: linear-gradient(90deg, #E30613 0%, #E30613 33%, #ffffff 33%, #ffffff 66%, #001F3F 66%, #001F3F 100%); 
+        }
+
+        /* แอนิเมชันสั่นแบบ Punk/Rock */
+        @keyframes punk-shake {
+            0% { transform: translate(0,0) rotate(0deg); }
+            20% { transform: translate(-3px, 2px) rotate(-1deg); }
+            40% { transform: translate(-3px, -2px) rotate(1deg); }
+            60% { transform: translate(3px, 2px) rotate(0deg); }
+            80% { transform: translate(3px, -2px) rotate(-1deg); }
+            100% { transform: translate(0,0) rotate(0deg); }
+        }
+
+        .btn-punk {
+            transition: all 0.1s ease-in-out;
+            border: 3px solid #ffffff;
+            cursor: pointer;
+            display: inline-block;
+        }
+        .btn-punk:hover {
+            animation: punk-shake 0.2s infinite;
+            background-color: #E30613;
+            color: #F2B900;
+            border-color: #F2B900;
+            box-shadow: 5px 5px 0px #F2B900;
+        }
+
+        /* ปุ่มบวก/ลบ */
+        .btn-toggle {
+            width: 50px; height: 50px; border: 3px solid #ffffff;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 32px; font-weight: 900; cursor: pointer;
+            transition: all 0.1s ease-in-out;
+        }
+        .btn-toggle:hover {
+            animation: punk-shake 0.2s infinite;
+            background-color: #E30613;
+            color: #F2B900 !important;
+            border-color: #F2B900;
+            box-shadow: 4px 4px 0px #F2B900;
+        }
+        .btn-toggle.active { transform: scale(1.1); border-color: #E30613; color: #E30613; }
+
+        .expandable-content {
+            max-height: 0; opacity: 0; overflow: hidden;
+            transition: max-height 0.8s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.6s ease;
+        }
+        .expandable-content.show { max-height: 2500px; opacity: 1; margin-top: 2rem; }
+
+        .retro-card { 
+            border: 2px solid #333; 
+            background-color: #050505; 
+            position: relative;
+            transition: 0.3s;
+        }
+        .retro-card:hover { border-color: #ffffff; }
+
+        /* สไตล์ Audio Player แบบคลีนๆ */
+        audio {
+            width: 100%;
+            height: 40px;
+            outline: none;
+        }
+        audio::-webkit-media-controls-panel {
+            background-color: #111;
+            border: 1px solid #333;
+        }
+        audio::-webkit-media-controls-play-button,
+        audio::-webkit-media-controls-mute-button {
+            filter: invert(1);
+        }
+        audio::-webkit-media-controls-current-time-display,
+        audio::-webkit-media-controls-time-remaining-display {
+            color: white;
+            filter: invert(1);
+        }
+
+        /* MODAL STYLES */
+        #ticket-modal {
+            display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.95);
+            z-index: 999; align-items: center; justify-content: center; backdrop-filter: blur(10px);
+        }
+        #ticket-modal.active { display: flex; }
+        .modal-container { background: #0a0a0a; border: 4px solid #ffffff; width: 95%; max-width: 900px; padding: 40px 20px; position: relative; max-height: 90vh; overflow-y: auto; }
+    </style>
+</head>
+<body>
+
+    <!-- NAV -->
+    <nav class="p-5 flex justify-between items-center border-b border-white/10 sticky top-0 bg-black/95 z-50 backdrop-blur-md">
+        <a href="index.html"><img src="https://res.cloudinary.com/dcrww0ijh/image/upload/v1776500130/Logo_2_gemini_ecylcd.png" alt="LOGO" class="h-[45px]"></a>
+        <div class="hidden lg:flex gap-4 xl:gap-8 font-bold uppercase text-[10px] tracking-[0.2em]">
+            <a href="the-movement.html" class="hover:text-[#F2B900] transition-colors">THE MOVEMENT</a>
+            <!-- Highlight สีแดง เพื่อบอกว่าเราอยู่หน้านี้ -->
+            <a href="#" class="text-[#E30613] hover:text-[#F2B900] transition-colors">BANDS & MEDIA</a>
+            <a href="revival-events.html" class="hover:text-[#F2B900] transition-colors">REVIVAL EVENTS</a>
+            <a href="community-hub.html" class="hover:text-[#F2B900] transition-colors">COMMUNITY HUB</a>
+            
+            <a href="merchandise.html" class="hover:text-[#F2B900] transition-colors">MERCHANDISE</a>
+            <a href="contact-tickets.html" class="hover:text-[#F2B900] transition-colors">CONTACT / TICKETS</a>
+        </div>
+    </nav>
+
+    <div class="uj-accent"></div>
+
+    <!-- HERO SECTION BANDS & MEDIA -->
+    <section class="relative py-24 md:py-32 px-6 border-b border-white/10 overflow-hidden flex items-center justify-center min-h-[60vh]">
+        
+        <!-- รูปแบบ Background Image และ Overlay โทนสีแดง ลด Opacity -->
+        <div class="absolute inset-0 z-0">
+            <!-- ใส่ภาพ Background ตรงนี้ได้เลย -->
+            <img src="https://res.cloudinary.com/dcrww0ijh/image/upload/v1776500130/landscape_edit_srhygr.jpg" alt="Bands Background" class="w-full h-full object-cover opacity-50 grayscale">
+            
+            <!-- Texture สีแดงซ้อนบางๆ เป็น Overlay -->
+            <div class="absolute inset-0" style="background: radial-gradient(circle at top right, rgba(227, 6, 19, 0.45) 0%, transparent 70%); mix-blend-mode: multiply;"></div>
+            
+            <!-- ไล่สีดำเพื่อเบลนด์ภาพให้กลืนไปกับเนื้อหาด้านล่าง -->
+            <div class="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black"></div>
+        </div>
+
+        <!-- เนื้อหา Hero -->
+        <div class="max-w-5xl mx-auto text-center relative z-10">
+            <h2 class="text-[#F2B900] font-black tracking-[0.3em] mb-4 text-xs md:text-base uppercase italic underline underline-offset-8">Lineup Deep Dive</h2>
+            <h1 class="headline-rock text-5xl md:text-7xl mb-6 text-[#ffffff] drop-shadow-xl" style="text-shadow: 3px 3px 0 #E30613;">MEET THE NOISEMAKERS</h1>
+            <p class="text-gray-300 text-sm md:text-lg tracking-widest font-bold max-w-2xl mx-auto uppercase mt-8 border-l-4 border-[#F2B900] pl-4 text-left bg-black/30 backdrop-blur-sm p-4 inline-block">
+                "Turn up the amps, drop the needle. This is the sound of our generation."
+            </p>
+        </div>
+    </section>
+
+    <!-- CONTENT SECTIONS: BANDS & DJS -->
+    <div class="max-w-5xl mx-auto px-6 py-20">
+        
+        <div class="space-y-24">
+            <!-- BAND 1: THE ANTHEMS -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
+                <div class="order-2 md:order-1">
+                    <h3 class="headline-rock text-4xl mb-2 text-[#ffffff] drop-shadow-md">THE ANTHEMS</h3>
+                    <h4 class="font-black text-sm tracking-[0.2em] italic uppercase text-[#E30613] mb-6">Manchester Attitude / Pure Rock N' Roll</h4>
+                    <p class="text-gray-400 leading-relaxed font-bold tracking-wide text-sm md:text-base mb-6">
+                        วงดนตรีที่เป็นตัวแทนของความดิบเถื่อน เย่อหยิ่ง แต่เต็มไปด้วยเมโลดี้ที่ทุกคนสามารถร้องตามได้ดังลั่นฮอลล์ กลิ่นอายของ Oasis และ ทัศนคติแบบ Working Class Hero ที่พร้อมจะเปลี่ยนเวทีนี้ให้กลายเป็นสนามกีฬา
+                    </p>
+                    <div class="bg-[#111] border border-[#333] p-4 rounded-sm">
+                        <p class="text-[10px] font-black uppercase text-[#E30613] tracking-widest mb-2">Sample Track: Supersonic Vibe</p>
+                        <audio controls>
+                            <source src="#" type="audio/mpeg">
+                            Your browser does not support the audio element.
+                        </audio>
+                    </div>
+                </div>
+                <div class="order-1 md:order-2 retro-card aspect-square flex items-center justify-center p-4 relative group">
+                    <div class="absolute inset-0 bg-[#E30613] opacity-20 group-hover:opacity-10 transition-opacity"></div>
+                    <p class="italic text-[#E30613] font-black tracking-widest text-xl drop-shadow-md text-center"> <img
+                        src="https://res.cloudinary.com/dcrww0ijh/image/upload/v1776500129/ANTHEMS_l_o6ect6.jpg"
+                        class="img-fluid rounded-top"
+                        alt=""
+                    />
+                     </p>
+                </div>
+            </div>
+
+            <!-- BAND 2: THE INDIE KINGS -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10 items-center md:flex-row-reverse">
+                <div class="retro-card aspect-square flex items-center justify-center p-4 relative group">
+                    <div class="absolute inset-0 bg-[#F2B900] opacity-20 group-hover:opacity-10 transition-opacity"></div>
+                    <p class="italic text-[#F2B900] font-black tracking-widest text-xl drop-shadow-md text-center"><img
+                        src="https://res.cloudinary.com/dcrww0ijh/image/upload/v1776500129/Indie_kings_l_tbigh4.jpg"
+                        class="img-fluid rounded-top"
+                        alt=""
+                    />
+                </p>
+                </div>
+                <div>
+                    <h3 class="headline-rock text-4xl mb-2 text-[#ffffff] drop-shadow-md">THE INDIE KINGS</h3>
+                    <h4 class="font-black text-sm tracking-[0.2em] italic uppercase text-[#F2B900] mb-6">Madchester Grooves / Jangle Pop</h4>
+                    <p class="text-gray-400 leading-relaxed font-bold tracking-wide text-sm md:text-base mb-6">
+                        นำเอาส่วนผสมของกีตาร์สไตล์ Jangle Pop ยุค 80s มาเขย่ารวมกับบีทแบบคลับมิวสิค นี่คือเสียงดนตรีที่จะบังคับให้คุณขยับเท้า สไตล์ที่ชวนให้นึกถึงยุครุ่งเรืองของ The Stone Roses และ Happy Mondays
+                    </p>
+                    <div class="bg-[#111] border border-[#333] p-4 rounded-sm">
+                        <p class="text-[10px] font-black uppercase text-[#F2B900] tracking-widest mb-2">Sample Track: Fool's Gold Echo</p>
+                        <audio controls>
+                            <source src="#" type="audio/mpeg">
+                            Your browser does not support the audio element.
+                        </audio>
+                    </div>
+                </div>
+            </div>
+
+            <!-- BAND 3: PULP FICTION -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
+                <div class="order-2 md:order-1">
+                    <h3 class="headline-rock text-4xl mb-2 text-[#ffffff] drop-shadow-md">PULP FICTION</h3>
+                    <h4 class="font-black text-sm tracking-[0.2em] italic uppercase text-[#001F3F] mb-6" style="text-shadow: 1px 1px 0 #fff;">Theatrical Glam / Art Rock</h4>
+                    <p class="text-gray-400 leading-relaxed font-bold tracking-wide text-sm md:text-base mb-6">
+                        มืดหม่น มีเสน่ห์ และเต็มไปด้วยจริตจะก้านของการแสดงสด Pulp Fiction จะพาคุณดำดิ่งไปกับเนื้อเพลงที่เสียดสีสังคมและท่วงทำนองที่เย้ายวนแบบ Suede และ Pulp เตรียมพบกับโชว์ที่เหมือนงานศิลปะชิ้นเอก
+                    </p>
+                    <div class="bg-[#111] border border-[#333] p-4 rounded-sm">
+                        <p class="text-[10px] font-black uppercase text-[#FFFFFF] tracking-widest mb-2">Sample Track: Common People Anthem</p>
+                        <audio controls>
+                            <source src="#" type="audio/mpeg">
+                            Your browser does not support the audio element.
+                        </audio>
+                    </div>
+                </div>
+                <div class="order-1 md:order-2 retro-card aspect-square flex items-center justify-center p-4 relative group">
+                    <div class="absolute inset-0 bg-[#001F3F] opacity-40 group-hover:opacity-20 transition-opacity"></div>
+                    <p class="italic text-[#ffffff] font-black tracking-widest text-xl drop-shadow-md text-center"><img
+                        src="https://res.cloudinary.com/dcrww0ijh/image/upload/v1776500130/PULP_FICTION_l_tmnm9m.jpg"
+                        class="img-fluid rounded-top"
+                        alt=""
+                    />
+                </p>
+                </div>
+            </div>
+
+            <!-- BAND 4: THE REVIVALIS -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10 items-center md:flex-row-reverse">
+                <div class="retro-card aspect-square flex items-center justify-center p-4 relative group">
+                    <div class="absolute inset-0 bg-[#6b3e3ebb] opacity-20 group-hover:opacity-10 transition-opacity"></div>
+                    <p class="italic text-[#FFFFFF] font-black tracking-widest text-xl drop-shadow-md text-center"><img
+                        src="https://res.cloudinary.com/dcrww0ijh/image/upload/v1776500131/THE_REVIVALIST_l_sokb3z.jpg"
+                        class="img-fluid rounded-top"
+                        alt=""
+                    />
+                </p>
+                </div>
+                <div>
+                    <h3 class="headline-rock text-4xl mb-2 text-[#ffffff] drop-shadow-md">THE REVIVALIST
+                    <h4 class="font-black text-sm tracking-[0.2em] italic uppercase text-[#6b3e3ebb] mb-6">Madchester Grooves </h4>
+                    <p class="text-gray-400 leading-relaxed font-bold tracking-wide text-sm md:text-base mb-6">
+                        ต่อยอดมาจากสไตล์ที่ชวนให้นึกถึงยุครุ่งเรืองของ The Stone Roses บวกกับสไตล์การแต่งตัวที่ดู Sexy/Glam เป็นวง Cover ที่ได้แรงบัลดาลใจจาก Suede
+                    </p>
+                    <div class="bg-[#111] border border-[#333] p-4 rounded-sm">
+                        <p class="text-[10px] font-black uppercase text-[#6b3e3ebb] tracking-widest mb-2">Sample Track: Beautiful Ones</p>
+                        <audio controls>
+                            <source src="#" type="audio/mpeg">
+                            Your browser does not support the audio element.
+                        </audio>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="border-t border-white/20 w-1/2 mx-auto my-20"></div>
+
+        <!-- DJ SECTION -->
+        <div class="text-center mb-16">
+            <h2 class="headline-rock text-3xl md:text-4xl mb-4 text-[#F2B900]">- LATE NIGHT RESIDENTS -</h2>
+            <p class="text-gray-400 font-bold uppercase tracking-widest text-xs">Keeping the dancefloor alive after the bands.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+            <!-- DJ 1 -->
+            <div class="bg-[#050505] border border-[#333] p-8 text-center hover:border-[#ffffff] transition-colors">
+                <div class="w-32 h-32 mx-auto rounded-full border-4 border-[#E30613] flex items-center justify-center mb-6 overflow-hidden bg-[#111]">
+                    <span class="text-[#E30613] font-black text-xs uppercase tracking-widest"><img src="https://res.cloudinary.com/dcrww0ijh/image/upload/v1776500131/Woo_hoo_edit_nbjbfa.jpg" alt="" srcset=""></span>
+                </div>
+                <h3 class="headline-rock text-2xl mb-2 text-white">DJ STARCRAZY HITS</h3>
+                <h4 class="font-black text-[10px] tracking-[0.2em] italic uppercase text-gray-500 mb-6">90s Singalongs / Britpop Classics</h4>
+                <p class="text-gray-400 text-sm mb-6 h-20">คนเปิดเพลงที่จะทำให้คุณกอดคอเพื่อนร้องเพลงชาติยุค 90s ตั้งแต่ Blur, Oasis ไปจนถึง The Verve ไม่มีเพลงไหนที่คุณจะร้องตามไม่ได้</p>
+                <div class="bg-[#111] p-3 text-left">
+                    <p class="text-[9px] font-black text-[#E30613] tracking-widest mb-2 uppercase">Mixtape Preview</p>
+                    <audio controls class="w-full h-8"><source src="#" type="audio/mpeg"></audio>
+                </div>
+            </div>
+
+            <!-- DJ 2 -->
+            <div class="bg-[#050505] border border-[#333] p-8 text-center hover:border-[#ffffff] transition-colors">
+                <div class="w-32 h-32 mx-auto rounded-full border-4 border-[#F2B900] flex items-center justify-center mb-6 overflow-hidden bg-[#111]">
+                    <span class="text-[#F2B900] font-black text-xs uppercase tracking-widest"><img src="https://res.cloudinary.com/dcrww0ijh/image/upload/v1776500131/Woo_hoo_edit_nbjbfa.jpg" alt="" srcset=""></span>
+                </div>
+                <h3 class="headline-rock text-2xl mb-2 text-white">DJ REVOLUTION</h3>
+                <h4 class="font-black text-[10px] tracking-[0.2em] italic uppercase text-gray-500 mb-6">Big Beat / 90s Rave & Acid</h4>
+                <p class="text-gray-400 text-sm mb-6 h-20">ปลุกชีพปาร์ตี้หลังเที่ยงคืนด้วยบีทอิเล็กทรอนิกส์หนักๆ สไตล์ The Chemical Brothers, The Prodigy และ Fatboy Slim ระเบิดฟลอร์เต้นรำให้ลุกเป็นไฟ</p>
+                <div class="bg-[#111] p-3 text-left">
+                    <p class="text-[9px] font-black text-[#F2B900] tracking-widest mb-2 uppercase">Mixtape Preview</p>
+                    <audio controls class="w-full h-8"><source src="#" type="audio/mpeg"></audio>
+                </div>
+            </div>
+        </div>
+
+        <!-- HIDDEN BANDS (Expandable Content) -->
+        <div id="more-bands" class="expandable-content pt-10 border-t border-white/10 mt-16">
+            <div class="text-center mb-10">
+                <h2 class="headline-rock text-3xl mb-2 text-white">- MORE TO BE ANNOUNCED -</h2>
+                <p class="text-gray-500 font-bold uppercase tracking-widest text-xs">The lineup is expanding. Keep your eyes peeled.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10 opacity-60">
+                <!-- TBA 1 -->
+                <div class="border border-dashed border-[#555] p-6 flex flex-col items-center justify-center bg-[#050505] min-h-[300px]">
+                    <p class="font-black italic text-2xl tracking-widest text-[#555] mb-4">GUEST ARTIST 01</p>
+                    <p class="text-xs uppercase tracking-[0.2em] font-bold text-gray-500">Coming Soon</p>
+                </div>
+                <!-- TBA 2 -->
+                <div class="border border-dashed border-[#555] p-6 flex flex-col items-center justify-center bg-[#050505] min-h-[300px]">
+                    <p class="font-black italic text-2xl tracking-widest text-[#555] mb-4">GUEST ARTIST 02</p>
+                    <p class="text-xs uppercase tracking-[0.2em] font-bold text-gray-500">Coming Soon</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- TOGGLE BUTTON -->
+        <div class="flex flex-col items-center gap-4 mt-16">
+            <div class="btn-toggle" onclick="toggleBandsContent('more-bands', this)">+</div>
+            <p class="text-[10px] font-bold tracking-[0.2em] opacity-50 uppercase" id="more-bands-text">Explore Full Lineup Roster</p>
+        </div>
+
+    </div>
+
+    <!-- CALL TO ACTION -->
+    <section class="py-20 text-center border-t border-white/10 bg-[#050505]">
+        <h2 class="headline-rock text-4xl md:text-5xl mb-8">SECURE YOUR SPOT</h2>
+        <a href="index.html" class="btn-punk px-10 py-4 text-xl font-black uppercase mx-2 mb-4 md:mb-0 bg-white text-black border-white hover:bg-[#F2B900] hover:text-black hover:border-[#F2B900]">BACK TO MAIN STAGE</a>
+        <button onclick="toggleModal(true)" class="btn-punk px-10 py-4 text-xl font-black uppercase mx-2 text-[#E30613] border-[#E30613] hover:text-[#F2B900] hover:border-[#F2B900]">GET TICKETS</button>
+    </section>
+
+    <!-- TICKET MODAL -->
+    <div id="ticket-modal">
+        <div class="modal-container">
+            <button onclick="toggleModal(false)" class="absolute top-4 right-6 text-3xl font-black hover:text-[#E30613]">✕</button>
+            <h2 class="headline-rock text-4xl text-center mb-10">SELECT YOUR ACCESS</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 px-4">
+                <div class="text-center">
+                    <img src="https://res.cloudinary.com/dcrww0ijh/image/upload/v1776500131/The_rock_jt6d3u.png" alt="The Rock Ticket" class="w-full border border-white/20 mb-4">
+                    <h3 class="font-black italic text-xl">THE ROCK</h3>
+                    <p class="text-gray-400 text-xs mb-4 uppercase tracking-widest">Regular Admission</p>
+                    <p class="text-2xl font-black mb-6">฿1,49X.-</p>
+                    <button class="btn-punk w-full py-3 font-black text-lg">BUY TICKET</button>
+                </div>
+
+                <div class="text-center">
+                    <img src="https://res.cloudinary.com/dcrww0ijh/image/upload/v1776500131/The_star_nodjua.png" alt="The Star Ticket" class="w-full border border-white/20 mb-4">
+                    <h3 class="font-black italic text-xl text-[#F2B900]">THE STAR</h3>
+                    <p class="text-gray-400 text-xs mb-4 uppercase tracking-widest">VIP Pass + Limited Merch</p>
+                    <p class="text-2xl font-black mb-6 text-[#F2B900]">฿2,99X.-</p>
+                    <button class="btn-punk w-full py-3 font-black text-lg border-[#F2B900] text-[#F2B900]">BUY TICKET</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="bg-black py-16 text-center border-t border-white/10">
+        <img src="https://res.cloudinary.com/dcrww0ijh/image/upload/v1776500130/Logo_2_gemini_ecylcd.png" alt="LOGO" class="h-[60px] mx-auto mb-6">
+        
+        <div class="mb-10">
+            <h5 class="text-[10px] font-black tracking-[0.3em] uppercase mb-4 text-white/50">- CONTACT US -</h5>
+            <div class="flex flex-wrap justify-center gap-6 text-[11px] font-bold tracking-[0.1em] uppercase">
+                <a href="mailto:info@britpoprevival.com" class="hover:text-[#E30613] transition-colors">EMAIL</a>
+                <a href="#" class="hover:text-[#F2B900] transition-colors">INSTAGRAM</a>
+                <a href="#" class="hover:text-[#F2B900] transition-colors">FACEBOOK</a>
+                <a href="#" class="hover:text-[#E30613] transition-colors">LINE OA</a>
+            </div>
+        </div>
+
+        <p class="text-gray-500 tracking-widest font-black text-[10px]">Liberty Plaza, Thonglor / 202X</p>
+        <p class="text-[8px] text-gray-700 tracking-[0.4em] font-bold italic mt-8">© 202X BRITPOP REVIVAL. BANGKOK CITY. KEEP THE FAITH.</p>
+    </footer>
+
+    <script>
+        function toggleBandsContent(targetId, btn) {
+            const content = document.getElementById(targetId);
+            const textElement = document.getElementById(targetId + '-text');
+            if(!content || !textElement) return;
+            content.classList.toggle('show');
+            btn.classList.toggle('active');
+            if (content.classList.contains('show')) {
+                btn.innerText = '-';
+                textElement.innerText = 'Hide Full Roster';
+            } else {
+                btn.innerText = '+';
+                textElement.innerText = 'Explore Full Lineup Roster';
+            }
+        }
+
+        function toggleModal(show) {
+            const modal = document.getElementById('ticket-modal');
+            if (show) {
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden'; 
+            } else {
+                modal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+        }
+        window.onclick = function(event) {
+            const modal = document.getElementById('ticket-modal');
+            if (event.target == modal) {
+                toggleModal(false);
+            }
+        }
+    </script>
+
+</body>
+</html>
