@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>THE MOVEMENT | Cool Britannia</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;900&display=swap');
+        
+        body { 
+            background-color: #000000; color: #ffffff; font-family: 'Inter', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        .headline-rock { font-weight: 900; text-transform: uppercase; letter-spacing: -0.04em; line-height: 1; }
+        
+        /* แถบสีเอกลักษณ์แบบธง Union Jack: แดง ขาว น้ำเงิน */
+        .uj-accent { 
+            height: 6px; 
+            background: linear-gradient(90deg, #E30613 0%, #E30613 33%, #ffffff 33%, #ffffff 66%, #001F3F 66%, #001F3F 100%); 
+        }
+
+        /* แอนิเมชันสั่นแบบ Punk/Rock */
+        @keyframes punk-shake {
+            0% { transform: translate(0,0) rotate(0deg); }
+            20% { transform: translate(-3px, 2px) rotate(-1deg); }
+            40% { transform: translate(-3px, -2px) rotate(1deg); }
+            60% { transform: translate(3px, 2px) rotate(0deg); }
+            80% { transform: translate(3px, -2px) rotate(-1deg); }
+            100% { transform: translate(0,0) rotate(0deg); }
+        }
+
+        .btn-punk {
+            transition: all 0.1s ease-in-out;
+            border: 3px solid #ffffff;
+            cursor: pointer;
+            display: inline-block;
+        }
+        .btn-punk:hover {
+            animation: punk-shake 0.2s infinite;
+            background-color: #E30613;
+            color: #F2B900;
+            border-color: #F2B900;
+            box-shadow: 5px 5px 0px #F2B900;
+        }
+
+        /* กรอบดีไซน์แบบยุค 90s */
+        .retro-card { 
+            border: 2px solid #333; 
+            background-color: #050505; 
+            position: relative;
+            transition: 0.3s;
+        }
+        .retro-card:hover { border-color: #ffffff; }
+        
+        /* MODAL STYLES (สำหรับซื้อตั๋วจากหน้านี้) */
+        #ticket-modal {
+            display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.95);
+            z-index: 999; align-items: center; justify-content: center; backdrop-filter: blur(10px);
+        }
+        #ticket-modal.active { display: flex; }
+        .modal-container { background: #0a0a0a; border: 4px solid #ffffff; width: 95%; max-width: 900px; padding: 40px 20px; position: relative; max-height: 90vh; overflow-y: auto; }
+    </style>
+</head>
+<body>
+
+    <!-- NAV -->
+    <nav class="p-5 flex justify-between items-center border-b border-white/10 sticky top-0 bg-black/95 z-50 backdrop-blur-md">
+        <a href="index.html"><img src="https://res.cloudinary.com/dcrww0ijh/image/upload/v1776500130/Logo_2_gemini_ecylcd.png" alt="LOGO" class="h-[45px]"></a>
+        
+        <!-- Desktop Menu (ซ่อนในมือถือ) -->
+        <div class="hidden lg:flex gap-4 xl:gap-8 font-bold uppercase text-[10px] tracking-[0.2em]">
+            <a href="#" class="text-[#E30613] hover:text-[#F2B900] transition-colors">THE MOVEMENT</a>
+            <a href="bands-media.html" class="hover:text-[#F2B900] transition-colors">BANDS & MEDIA</a>
+            <a href="revival-events.html" class="hover:text-[#F2B900] transition-colors">REVIVAL EVENTS</a>
+            <a href="community-hub.html" class="hover:text-[#F2B900] transition-colors">COMMUNITY HUB</a>
+            <a href="merchandise.html" class="hover:text-[#F2B900] transition-colors">MERCHANDISE</a>
+            <a href="contact-tickets.html" class="hover:text-[#F2B900] transition-colors">CONTACT / TICKETS</a>
+        </div>
+
+        <!-- Hamburger Button (แสดงเฉพาะมือถือ) -->
+        <button id="hamburger-btn" class="block lg:hidden text-white hover:text-[#E30613] focus:outline-none transition-colors">
+            <svg id="hamburger-icon" class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+            </svg>
+            <svg id="close-icon" class="w-8 h-8 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+        </button>
+    </nav>
+
+    <!-- Mobile Menu (ซ่อนเป็นค่าเริ่มต้น) -->
+    <div id="mobile-menu" class="fixed top-[86px] left-0 w-full h-[calc(100vh-86px)] bg-black/98 backdrop-blur-xl z-40 hidden flex-col items-center pt-12 gap-8 font-black uppercase text-sm tracking-[0.2em] border-t border-white/10 overflow-y-auto pb-20">
+        <!-- อย่าลืมใส่คลาส text-[#E30613] ในหน้าปัจจุบันที่คุณอยู่ เพื่อเป็น Highlight -->
+        <a href="the-movement.html" class="text-[#E30613] -colors">THE MOVEMENT</a>
+        <a href="bands-media.html" class="hover:text-[#F2B900] transition-colors">BANDS & MEDIA</a>
+        <a href="revival-events.html" class="hover:text-[#F2B900] transition-colors">REVIVAL EVENTS</a>
+        <a href="community-hub.html" class="hover:text-[#F2B900] transition-colors">COMMUNITY HUB</a>
+        <a href="merchandise.html" class="hover:text-[#F2B900] transition-colors">MERCHANDISE</a>
+        <a href="contact-tickets.html" class="hover:text-[#F2B900] transition-colors">CONTACT / TICKETS</a>
+    </div>
+
+    <div class="uj-accent"></div>
+
+    <!-- HERO SECTION MOVEMENT -->
+    <section class="relative py-24 md:py-32 px-6 border-b border-white/10 overflow-hidden flex items-center justify-center min-h-[60vh]">
+        
+        <!-- รูปแบบ Background Image และ Overlay สีสันแบบ Britpop ลด Opacity -->
+        <div class="absolute inset-0 z-0">
+            <!-- เปลี่ยนชื่อไฟล์รูปภาพให้ตรงกับของคุณได้เลยที่นี่ -->
+            <img src="https://res.cloudinary.com/dcrww0ijh/image/upload/v1776500130/landscape_edit_srhygr.jpg" alt="Hero Background" class="w-full h-full object-cover opacity-50 grayscale">
+            
+            <!-- Texture สีน้ำเงิน และ แดง/เหลือง วางซ้อนบางๆ เป็น Overlay -->
+            <div class="absolute inset-0" style="background: radial-gradient(circle at top center, rgba(0, 31, 63, 0.6) 0%, transparent 80%), radial-gradient(circle at bottom right, rgba(227, 6, 19, 0.2) 0%, transparent 60%); mix-blend-mode: multiply;"></div>
+            
+            <!-- ไล่สีดำเพื่อเบลนด์เข้ากับเนื้อหาด้านล่าง -->
+            <div class="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black"></div>
+        </div>
+
+        <!-- เนื้อหา Hero -->
+        <div class="max-w-4xl mx-auto text-center relative z-10">
+            <h2 class="text-[#F2B900] font-black tracking-[0.3em] mb-4 text-xs md:text-base uppercase italic underline underline-offset-8">The 90s Cultural Phenomenon</h2>
+            <h1 class="headline-rock text-6xl md:text-8xl mb-6 text-[#ffffff] drop-shadow-xl" style="text-shadow: 4px 4px 0 #002a66;">COOL BRITANNIA</h1>
+            <p class="text-gray-300 text-sm md:text-lg tracking-widest font-bold max-w-2xl mx-auto uppercase mt-8 border-l-4 border-[#F2B900] pl-4 text-left bg-black/30 backdrop-blur-sm p-4 inline-block">
+                "It's not just the music. It's the attitude, the clothes, and the absolute refusal to be ordinary."
+            </p>
+        </div>
+    </section>
+
+    <!-- CONTENT SECTIONS -->
+    <div class="max-w-5xl mx-auto px-6 py-20 space-y-24">
+        
+        <!-- Concept -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+            <div>
+                <h3 class="headline-rock text-4xl mb-6 text-[#E30613]">- THE CONCEPT -</h3>
+                <h4 class="font-black text-xl italic uppercase text-white mb-4">A Rebellion Against the Mundane</h4>
+                <p class="text-gray-400 leading-relaxed font-bold tracking-wide text-sm md:text-base">
+                    "Cool Britannia" ไม่ใช่แค่ชื่อเรียกยุคสมัย แต่มันคือ <span class="text-white">จิตวิญญาณและความภาคภูมิใจ</span> ของวัยรุ่นในยุค 90s เป็นยุคที่ดนตรี Britpop (นำโดย Oasis และ Blur) ครอบครองโลก ศิลปะ แฟชั่น และทัศนคติที่เต็มไปด้วยความขบถและอิสระถูกหลอมรวมกัน เราตั้งใจที่จะรื้อฟื้นพลังงานที่ดิบเถื่อนและจริงใจนั้นกลับมาอีกครั้งบนพื้นที่ของเรา
+                </p>
+            </div>
+            <div class="retro-card aspect-video flex items-center justify-center p-2 relative group">
+                <img src="https://res.cloudinary.com/dcrww0ijh/image/upload/v1776500131/oasis_bg_mbxlqv.png" class="w-full h-full object-cover grayscale">
+                <div class="absolute inset-0 bg-[#001F3F] opacity-30 group-hover:opacity-10 transition-opacity"></div>
+                <p class="italic text-[#001F3F] font-black tracking-widest text-xl drop-shadow-md"> </p>
+            </div>
+        </div>
+
+        <!-- Fashion -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center md:flex-row-reverse">
+            <div class="order-2 md:order-1 retro-card aspect-video flex items-center justify-center p-2 relative group">
+                <img src="https://res.cloudinary.com/dcrww0ijh/image/upload/v1776500128/Cb_bg_qkvoe5.png" class="w-full h-full object-cover grayscale">
+                 <div class="absolute inset-0 bg-[#F2B900] opacity-20 group-hover:opacity-10 transition-opacity"></div>
+                <p class="italic text-[#F2B900] font-black tracking-widest text-xl drop-shadow-md"> </p>
+            </div>
+            <div class="order-1 md:order-2">
+                <h3 class="headline-rock text-4xl mb-6 text-[#F2B900]">- 90s FASHION -</h3>
+                <h4 class="font-black text-xl italic uppercase text-white mb-4">The Uniform of the Streets</h4>
+                <p class="text-gray-400 leading-relaxed font-bold tracking-wide text-sm md:text-base">
+                    แฟชั่นไม่ใช่แค่เครื่องแต่งกาย แต่มันคือเครื่องแบบของชาว <span class="text-[#ffffff]">Football Casuals และ Mod Revival</span> การจับคู่เสื้อแจ็คเก็ต Tracksuit, รองเท้าผ้าใบอย่าง Adidas Samba, เสื้อ Parka ตัวโคร่ง และหมวก Bucket Hat คือสัญลักษณ์ของการผสมผสานความสปอร์ตเข้ากับสตรีทแวร์ ที่ยังคงคลาสสิกและทรงอิทธิพลมาจนถึงทุกวันนี้
+                </p>
+            </div>
+        </div>
+
+        <!-- Ideology -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+            <div>
+                <h3 class="headline-rock text-4xl mb-6 text-[#001F3F]" style="text-shadow: 1px 1px 0 #ffffff;">- OUR IDEOLOGY -</h3>
+                <h4 class="font-black text-xl italic uppercase text-white mb-4">Our Stage, Our Rules</h4>
+                <p class="text-gray-400 leading-relaxed font-bold tracking-wide text-sm md:text-base">
+                    ทำไมเราถึงต้องนำวัฒนธรรมนี้กลับมา? เพราะเราเชื่อใน <span class="text-[#E30613]">"พลังของดนตรีสด"</span> ที่เชื่อมโยงผู้คนเข้าด้วยกัน เราต้องการสร้างพื้นที่ที่ทุกคนสามารถปลดปล่อยตัวเอง ตะโกนร้องเพลงชาติของชาวร็อคไปพร้อมกัน สร้าง Community ที่เหนียวแน่น และประกาศให้โลกรับรู้ว่าจิตวิญญาณแห่งทศวรรษ 90s ไม่เคยจางหายไปไหน
+                </p>
+            </div>
+            <div class="retro-card aspect-video flex items-center justify-center p-2 relative group">
+                <img src="https://res.cloudinary.com/dcrww0ijh/image/upload/v1776500130/Oasis_kneb_ifihqa.jpg" class="w-full h-full object-cover grayscale">
+                <div class="absolute inset-0 bg-[#E30613] opacity-20 group-hover:opacity-10 transition-opacity"></div>
+                <p class="italic text-[#E30613] font-black tracking-widest text-xl drop-shadow-md"> </p>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- CALL TO ACTION -->
+    <section class="py-20 text-center border-t border-white/10 bg-[#050505]">
+        <h2 class="headline-rock text-4xl md:text-5xl mb-8">READY TO JOIN THE REVIVAL?</h2>
+        <a href="index.html" class="btn-punk px-10 py-4 text-xl font-black uppercase mx-2 mb-4 md:mb-0 bg-white text-black border-white hover:bg-[#F2B900] hover:text-black hover:border-[#F2B900]">BACK TO MAIN STAGE</a>
+        <button onclick="toggleModal(true)" class="btn-punk px-10 py-4 text-xl font-black uppercase mx-2 text-[#E30613] border-[#E30613] hover:text-[#F2B900] hover:border-[#F2B900]">GET TICKETS</button>
+    </section>
+
+    <!-- TICKET MODAL -->
+    <div id="ticket-modal">
+        <div class="modal-container">
+            <button onclick="toggleModal(false)" class="absolute top-4 right-6 text-3xl font-black hover:text-[#E30613]">✕</button>
+            <h2 class="headline-rock text-4xl text-center mb-10">SELECT YOUR ACCESS</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 px-4">
+                <div class="text-center">
+                    <img src="https://res.cloudinary.com/dcrww0ijh/image/upload/v1776500131/The_rock_jt6d3u.png" alt="The Rock Ticket" class="w-full border border-white/20 mb-4">
+                    <h3 class="font-black italic text-xl">THE ROCK</h3>
+                    <p class="text-gray-400 text-xs mb-4 uppercase tracking-widest">Regular Admission</p>
+                    <p class="text-2xl font-black mb-6">฿1,49X.-</p>
+                    <button class="btn-punk w-full py-3 font-black text-lg">BUY TICKET</button>
+                </div>
+
+                <div class="text-center">
+                    <img src="https://res.cloudinary.com/dcrww0ijh/image/upload/v1776500131/The_star_nodjua.png" alt="The Star Ticket" class="w-full border border-white/20 mb-4">
+                    <h3 class="font-black italic text-xl text-[#F2B900]">THE STAR</h3>
+                    <p class="text-gray-400 text-xs mb-4 uppercase tracking-widest">VIP Pass + Limited Merch</p>
+                    <p class="text-2xl font-black mb-6 text-[#F2B900]">฿2,99X.-</p>
+                    <button class="btn-punk w-full py-3 font-black text-lg border-[#F2B900] text-[#F2B900]">BUY TICKET</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="bg-black py-16 text-center border-t border-white/10">
+        <img src="https://res.cloudinary.com/dcrww0ijh/image/upload/v1776500130/Logo_2_gemini_ecylcd.png" alt="LOGO" class="h-[60px] mx-auto mb-6">
+        
+        <div class="mb-10">
+            <h5 class="text-[10px] font-black tracking-[0.3em] uppercase mb-4 text-white/50">- CONTACT US -</h5>
+            <div class="flex flex-wrap justify-center gap-6 text-[11px] font-bold tracking-[0.1em] uppercase">
+                <a href="mailto:info@britpoprevival.com" class="hover:text-[#E30613] transition-colors">EMAIL</a>
+                <a href="#" class="hover:text-[#F2B900] transition-colors">INSTAGRAM</a>
+                <a href="#" class="hover:text-[#F2B900] transition-colors">FACEBOOK</a>
+                <a href="#" class="hover:text-[#E30613] transition-colors">LINE OA</a>
+            </div>
+        </div>
+
+        <p class="text-gray-500 tracking-widest font-black text-[10px]">Liberty Plaza, Thonglor / 202X</p>
+        <p class="text-[8px] text-gray-700 tracking-[0.4em] font-bold italic mt-8">© 202X BRITPOP REVIVAL. BANGKOK CITY. KEEP THE FAITH.</p>
+    </footer>
+
+    <script>
+        function toggleModal(show) {
+            const modal = document.getElementById('ticket-modal');
+            if (show) {
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden'; 
+            } else {
+                modal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+        }
+        window.onclick = function(event) {
+            const modal = document.getElementById('ticket-modal');
+            if (event.target == modal) {
+                toggleModal(false);
+            }
+        }
+
+        // Hamburger Menu Function
+        const hamburgerBtn = document.getElementById('hamburger-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const hamburgerIcon = document.getElementById('hamburger-icon');
+        const closeIcon = document.getElementById('close-icon');
+
+        if(hamburgerBtn) {
+            hamburgerBtn.addEventListener('click', () => {
+                const isHidden = mobileMenu.classList.contains('hidden');
+                
+                if (isHidden) {
+                    mobileMenu.classList.remove('hidden');
+                    mobileMenu.classList.add('flex');
+                    hamburgerIcon.classList.add('hidden');
+                    closeIcon.classList.remove('hidden');
+                    document.body.style.overflow = 'hidden'; // ล็อคการเลื่อนหน้าจอ
+                } else {
+                    mobileMenu.classList.add('hidden');
+                    mobileMenu.classList.remove('flex');
+                    hamburgerIcon.classList.remove('hidden');
+                    closeIcon.classList.add('hidden');
+                    document.body.style.overflow = 'auto'; // คืนค่าการเลื่อนหน้าจอ
+                }
+            });
+        }
+        
+    </script>
+
+</body>
+</html>
